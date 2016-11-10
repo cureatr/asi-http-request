@@ -34,7 +34,7 @@
 	static dispatch_once_t sOnce;
     
     dispatch_once(&sOnce, ^{
-        sAllowedCharacters = [NSCharacterSet characterSetWithCharactersInString:@":/?#[]@!$ &'()*+,;=\"<>%{}|\\^~`"].invertedSet;
+        sAllowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:@":/?#[]@!$ &'()*+,;=\"<>%{}|\\^~`"].invertedSet retain];
     });
     
     NSString *newString = [string stringByAddingPercentEncodingWithAllowedCharacters:sAllowedCharacters];

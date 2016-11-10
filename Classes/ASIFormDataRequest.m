@@ -30,7 +30,14 @@
 #pragma mark utilities
 - (NSString*)encodeURL:(NSString *)string
 {
-    NSString *newString = [string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    static NSCharacterSet *sAllowedCharacters;
+	static dispatch_once_t sOnce;
+    
+    dispatch_once(&sOnce, ^{
+        sAllowedCharacters = [NSCharacterSet characterSetWithCharactersInString:@":/?#[]@!$ &'()*+,;=\"<>%{}|\\^~`"].invertedSet;
+    });
+    
+    NSString *newString = [string stringByAddingPercentEncodingWithAllowedCharacters:sAllowedCharacters];
 	if (newString) {
 		return newString;
 	}

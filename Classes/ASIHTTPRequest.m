@@ -3708,7 +3708,9 @@ static NSOperationQueue *sharedQueue = nil;
 		[connectionsLock lock];
 		runningRequestCount++;
 		if (shouldUpdateNetworkActivityIndicator) {
-			[[self class] showNetworkActivityIndicator];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [[self class] showNetworkActivityIndicator];
+            });
 		}
 		[connectionsLock unlock];
 

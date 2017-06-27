@@ -24,9 +24,9 @@ static const NSUInteger kDomainSection = 1;
 
 @implementation ASIAutorotatingViewController
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-	return YES;
+    return UIInterfaceOrientationMaskAll;
 }
 
 @end

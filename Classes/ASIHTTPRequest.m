@@ -3708,8 +3708,8 @@ static NSOperationQueue *sharedQueue = nil;
 		[connectionsLock lock];
 		runningRequestCount++;
 		if (shouldUpdateNetworkActivityIndicator) {
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                [[self class] showNetworkActivityIndicator];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[self class] showNetworkActivityIndicatorIfNeeeded];
             });
 		}
 		[connectionsLock unlock];
@@ -4757,6 +4757,15 @@ static NSOperationQueue *sharedQueue = nil;
 + (void)hideNetworkActivityIndicatorAfterDelay
 {
 	[self performSelector:@selector(hideNetworkActivityIndicatorIfNeeeded) withObject:nil afterDelay:0.5];
+}
+
++ (void)showNetworkActivityIndicatorIfNeeeded
+{
+	[connectionsLock lock];
+	if (runningRequestCount > 0) {
+		[self showNetworkActivityIndicator];
+	}
+	[connectionsLock unlock];
 }
 
 + (void)hideNetworkActivityIndicatorIfNeeeded

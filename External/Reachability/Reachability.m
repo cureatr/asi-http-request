@@ -220,6 +220,8 @@ static void logReachabilityFlags_(const char *name, int line, SCNetworkReachabil
 	if (self != nil) 
     {
 		reachabilityRef = ref;
+        
+        CFRetain(reachabilityRef);
 	}
 	
 	return self;
@@ -354,7 +356,9 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 		Reachability *r = [[[self alloc] initWithReachabilityRef: ref] autorelease];
 		
 		r.key = [self makeAddressKey: hostAddress->sin_addr.s_addr];
-		
+        
+        CFRelease(ref);
+        
 		return r;
 		
 	}
